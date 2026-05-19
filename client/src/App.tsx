@@ -1,60 +1,53 @@
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
-import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeContext";
-import DashboardLayout from "./components/DashboardLayout";
-import Home from "./pages/Home";
-import AssetCatalog from "./pages/AssetCatalog";
-import AssetDetail from "./pages/AssetDetail";
-import Bundles from "./pages/Bundles";
-import BundleDetail from "./pages/BundleDetail";
-import SocialCalendar from "./pages/SocialCalendar";
-import EmailAgent from "./pages/EmailAgent";
-import Settings from "./pages/Settings";
-import GoogleDriveCallback from "./pages/GoogleDriveCallback";
-import BundleDownload from "./pages/BundleDownload";
-
-function DashboardRouter() {
+export default function App() {
   return (
-    <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/catalog"} component={AssetCatalog} />
-      <Route path={"/catalog/:id"} component={AssetDetail} />
-      <Route path={"/bundles"} component={Bundles} />
-      <Route path={"/bundles/:id"} component={BundleDetail} />
-      <Route path={"/social"} component={SocialCalendar} />
-      <Route path={"/email"} component={EmailAgent} />
-      <Route path={"/settings"} component={Settings} />
-      <Route path={"/404"} component={NotFound} />
-      <Route component={NotFound} />
-    </Switch>
+    <main
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#0f172a",
+        color: "white",
+        fontFamily: "Arial, sans-serif",
+        padding: "40px",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "720px",
+          width: "100%",
+          background: "#111827",
+          border: "1px solid #334155",
+          borderRadius: "24px",
+          padding: "40px",
+          boxShadow: "0 25px 80px rgba(0,0,0,0.35)",
+        }}
+      >
+        <h1 style={{ fontSize: "36px", marginBottom: "12px" }}>
+          Ink Riot Asset OS
+        </h1>
+
+        <p style={{ fontSize: "18px", lineHeight: "1.6", color: "#cbd5e1" }}>
+          The app is deployed. Next step is connecting Google login, database,
+          asset scanning, and AI bundle generation.
+        </p>
+
+        <a
+          href="/api/login/google"
+          style={{
+            display: "inline-block",
+            marginTop: "28px",
+            background: "#3EBDA7",
+            color: "#10213D",
+            padding: "14px 22px",
+            borderRadius: "12px",
+            fontWeight: "bold",
+            textDecoration: "none",
+          }}
+        >
+          Sign in with Google
+        </a>
+      </div>
+    </main>
   );
 }
-
-function App() {
-  return (
-    <ErrorBoundary>
-      <ThemeProvider defaultTheme="dark">
-        <TooltipProvider>
-          <Toaster />
-          <Switch>
-            {/* Public routes — no dashboard/auth wrapper */}
-            <Route path="/download/:id" component={BundleDownload} />
-            {/* Google OAuth callback — must be public so Google can redirect here before session is established */}
-            <Route path="/auth/google/callback" component={GoogleDriveCallback} />
-            {/* All other routes — inside DashboardLayout with auth */}
-            <Route>
-              <DashboardLayout>
-                <DashboardRouter />
-              </DashboardLayout>
-            </Route>
-          </Switch>
-        </TooltipProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
-  );
-}
-
-export default App;
